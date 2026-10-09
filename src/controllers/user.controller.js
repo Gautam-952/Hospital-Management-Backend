@@ -43,4 +43,66 @@ const registerUser = asyncHandler(async (req, res, next) => {
         })
 })
 
-export { registerUser }
+const generateAccessAndRefreshTokens = async (userId) => {
+    try {
+        const user = await User.findById(userId)
+
+        const accessToken = user.generateAccessToken()
+        const refreshToken = user.generateRefreshToken()
+
+        user.refreshToken = refreshToken
+        await user.save({ validateBeforeSave: false })
+
+        return { accessToken, refreshToken }
+
+    } catch (error) {
+        throw new ApiError(500, error?.message || "Something went wrong while generating token.")
+    }
+}
+
+const loginUser = asyncHandler(async (req, res) => {
+    const { email, userName, password } = req.body
+
+    if (!(userName || email)) {
+        throw new ApiError(400, "All credentials should be filled.")
+    }
+
+    if (!password) {
+        throw new ApiError(400, "Password is required.")
+    }
+
+    const alreadyUser = await User.findOne({ $or: [{ userName }, { email }] })
+    if (!alreadyUser) {
+        throw new ApiError(404, "User does not exsist.")
+    }
+    const isPasswordValid = await alreadyUser.isPasswordCorrect(password)
+    if (!isPasswordValid) {
+        throw new ApiError(401, "Invalid user credentials.")
+    }
+
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(alreadyUser._id)
+
+    const loggedInUser = await User.findById(alreadyUser._id).select("-password -refreshToken")
+
+    const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production"
+    }
+
+    return res
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
+        .json({
+            statusCode: 200,
+            data: {
+                user: loggedInUser,
+            },
+            message: "User logged in successfully."
+        })
+
+    return res
+
+})
+
+export { registerUser, loginUser }
