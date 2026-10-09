@@ -2,6 +2,7 @@ import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/apiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { set } from "mongoose";
 
 const registerUser = asyncHandler(async (req, res, next) => {
     const { userName, email, password, role } = req.body
@@ -105,4 +106,32 @@ const loginUser = asyncHandler(async (req, res) => {
 
 })
 
-export { registerUser, loginUser }
+const logoutUser = asyncHandler(async (req, res) => {
+    const loggoutUser = await User.findByIdAndUpdate(req.user._id,
+        {
+            set: {
+                refreshToken: 1 // or $unset: {refreshToken : 1} or refreshToken: undefined
+            }
+        },
+        {
+            new: true
+        }
+    )
+
+    const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production"
+    }
+
+    return res
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json({
+            statusCode: 200,
+            data: {},
+            message: "User Logged Out Succesfully."
+        })
+})
+
+export { registerUser, loginUser, logoutUser }
