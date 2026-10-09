@@ -134,4 +134,14 @@ const logoutUser = asyncHandler(async (req, res) => {
         })
 })
 
-export { registerUser, loginUser, logoutUser }
+const getCurrentUser = asyncHandler(async (req, res) => {
+    return res
+        .status(200)
+        .json({
+            statusCode: 200,
+            data: req.user,
+            message: "Current User Fetched Successfully."
+        })
+})
+
+export { registerUser, loginUser, logoutUser, getCurrentUser }
