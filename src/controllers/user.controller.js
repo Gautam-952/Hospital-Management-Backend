@@ -209,4 +209,40 @@ const changePassword = asyncHandler(async (req, res) => {
         })
 })
 
-export { registerUser, loginUser, logoutUser, getCurrentUser, refreshAccessToken, changePassword }
+const updateAccountDetails = asyncHandler(async (req, res) => {
+    const { userName, email, role } = req.body
+    if (!(userName || email || role)) {
+        throw new ApiError(400, "Cannot fetch user Deatils.")
+    }
+
+    const updateFields = {}
+    if (userName) {
+        updateFields.userName = userName
+    }
+    if (email) {
+        updateFields.email = email
+    }
+    if (role) {
+        updateFields.role = role
+    }
+
+    const changeDetails = await User.findByIdAndUpdate(req.user._id,
+        {
+            $set: updateFields
+        },
+        {
+            new: true,
+        }
+    ).select("-password -refreshToken")
+
+    return res
+        .status(200)
+        .json({
+            statusCode: 200,
+            user: changeDetails,
+            message: "User Details Changed successfully."
+        })
+
+})
+
+export { registerUser, loginUser, logoutUser, getCurrentUser, refreshAccessToken, changePassword, updateAccountDetails }
