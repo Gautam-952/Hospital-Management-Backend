@@ -1,6 +1,6 @@
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/apiError.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { set } from "mongoose";
 import jwt from "jsonwebtoken"
@@ -265,6 +265,12 @@ const updateAvatar = asyncHandler(async (req, res) => {
             new: true
         }
     ).select("-password -refreshToken")
+
+    const oldAvatar = req.user?.avatar
+    if (oldAvatar) {
+        const publicId = oldAvatar.split("/").pop().split(".")[0]
+        const deleteAvatar = await deleteFromCloudinary(publicId)
+    }
 
     return res
         .status(200)
