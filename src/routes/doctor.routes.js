@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createDoctorProfile, getDoctorProfile } from "../controllers/doctor.controller.js"
+import { createDoctorProfile, getDoctorProfile, getAllDoctor } from "../controllers/doctor.controller.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js"
 
 const router = Router()
@@ -14,6 +14,10 @@ router.route("/profile").get(
 
 router.route("/:id").get(
     getDoctorProfile
+)
+
+router.route("/").get(
+    getAllDoctor
 )
 
 export default router

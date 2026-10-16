@@ -60,4 +60,26 @@ const getDoctorProfile = asyncHandler(async (req, res) => {
 
 })
 
-export { createDoctorProfile, getDoctorProfile }
+const getAllDoctor = asyncHandler(async (req, res) => {
+    const { specialization } = req.query
+
+    let filter = {}
+    if (specialization) {
+        filter.specialization = specialization
+    }
+
+    const filteringDocs = await Doctor.find(filter).populate("user_id", "name email")
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                filteringDocs,
+                "The specialization fetched successfully."
+            )
+        )
+
+})
+
+export { createDoctorProfile, getDoctorProfile, getAllDoctor }
