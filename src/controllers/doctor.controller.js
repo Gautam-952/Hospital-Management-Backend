@@ -6,6 +6,10 @@ import { ApiResponse } from "../utils/apiResponse.js"
 
 const createDoctorProfile = asyncHandler(async (req, res) => {
 
+    if (req.user?.role !== "doctor") {
+        throw new ApiError(403, "Access Denied. Only doctors can perform this action.")
+    }
+
     const { specialization, availability } = req.body
     if (!specialization || !availability) {
         throw new ApiError(400, "All credentials should be filled.")
@@ -82,4 +86,37 @@ const getAllDoctor = asyncHandler(async (req, res) => {
 
 })
 
-export { createDoctorProfile, getDoctorProfile, getAllDoctor }
+const updateDoctorAvailability = asyncHandler(async (req, res) => {
+
+    if (req.user?.role !== "doctor") {
+        throw new ApiError(403, "Access Denied. Only doctors can perform this action.")
+    }
+
+    const { availability } = req.body
+    if (!availability) {
+        throw new ApiError(400, "No availability data is found.")
+    }
+
+    const updatedDoctor = await Doctor.findOneAndUpdate(
+        { user_id: req.user._id },
+        { $set: { availability } },
+        { new: true }
+    )
+
+    if (!updatedDoctor) {
+        throw new ApiError(404, "Doctor profile not found.")
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                updatedDoctor,
+                "Doctors Availability Changed Successfully."
+            )
+        )
+
+})
+
+export { createDoctorProfile, getDoctorProfile, getAllDoctor, updateDoctorAvailability }

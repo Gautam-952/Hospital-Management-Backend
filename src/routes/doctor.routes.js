@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createDoctorProfile, getDoctorProfile, getAllDoctor } from "../controllers/doctor.controller.js"
+import { createDoctorProfile, getDoctorProfile, getAllDoctor, updateDoctorAvailability } from "../controllers/doctor.controller.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js"
 
 const router = Router()
@@ -18,6 +18,10 @@ router.route("/:id").get(
 
 router.route("/").get(
     getAllDoctor
+)
+
+router.route("/update-availability").patch(
+    verifyJWT, updateDoctorAvailability
 )
 
 export default router
