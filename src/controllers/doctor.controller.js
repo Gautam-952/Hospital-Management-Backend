@@ -33,4 +33,31 @@ const createDoctorProfile = asyncHandler(async (req, res) => {
 
 })
 
-export { createDoctorProfile }
+const getDoctorProfile = asyncHandler(async (req, res) => {
+    const doctorId = req.params.id
+    let query = {}
+
+    if (doctorId) {
+        query = { $or: [{ _id: doctorId }, { user_id: doctorId }] }
+    } else {
+        query = { user_id: req.user?._id }
+    }
+
+    const doctorProfile = await Doctor.findOne(query).populate("user_id", "name email")
+    if (!doctorProfile) {
+        throw new ApiError(404, "Doctor Profile not found.")
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                doctorProfile,
+                "Doctor profile fetched Successfully."
+            )
+        )
+
+})
+
+export { createDoctorProfile, getDoctorProfile }
