@@ -13,6 +13,6 @@ app.use(express.json({ limit: "16kb" }))
 app.use(cookieParser())
 app.use(express.static("public"))
 app.use("/api/v1/users", userRouter)
-app.use("/api/v1/users", doctorRouter)
+app.use("/api/v1/doctors", doctorRouter)
 
 export { app }

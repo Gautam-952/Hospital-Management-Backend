@@ -12,7 +12,7 @@ router.route("/profile").get(
     verifyJWT, getDoctorProfile
 )
 
-router.route(":/id").get(
+router.route("/:id").get(
     getDoctorProfile
 )
 

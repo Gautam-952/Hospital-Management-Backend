@@ -1,5 +1,5 @@
 import { Doctor } from "../models/doctor.model.js"
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js"
 
