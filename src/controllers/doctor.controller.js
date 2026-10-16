@@ -1,0 +1,36 @@
+import { Doctor } from "../models/doctor.model.js"
+import { asyncHandler } from "../utils/asyncHandler";
+import { ApiError } from "../utils/apiError.js";
+import { ApiResponse } from "../utils/apiResponse.js"
+
+
+const createDoctorProfile = asyncHandler(async (req, res) => {
+
+    const { specialization, availability } = req.body
+    if (!specialization || !availability) {
+        throw new ApiError(400, "All credentials should be filled.")
+    }
+
+    const alreadyDoctor = await Doctor.findOne({ user_id: req.user._id })
+    if (alreadyDoctor) {
+        throw new ApiError(409, "Doctor already exsists.")
+    }
+
+    const createdDoctor = await Doctor.create({ user_id: req.user._id, specialization, availability })
+    if (!createdDoctor) {
+        throw new ApiError(500, "Something went wrong by creating Doctor.")
+    }
+
+    return res
+        .status(201)
+        .json(
+            new ApiResponse(
+                201,
+                createdDoctor,
+                "Doctor Created Successfully."
+            )
+        )
+
+})
+
+export { createDoctorProfile }
