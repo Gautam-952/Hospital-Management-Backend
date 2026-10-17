@@ -57,4 +57,52 @@ const getPatientProfile = asyncHandler(async (req, res) => {
 
 })
 
-export { createPatient, getPatientProfile }
+const updatePatientProfile = asyncHandler(async (req, res) => {
+
+    if (req.user?.role !== "patient") {
+        throw new ApiError(403, "Access denied. Only patient can perform this action.")
+    }
+
+    const { phone, address, dob } = req.body
+    if (!(phone || address || dob)) {
+        throw new ApiError(400, "Please fill the credentials.")
+    }
+
+    const updateField = {}
+    if (phone !== undefined) {
+        updateField.phone = phone
+    }
+    if (address !== undefined) {
+        updateField.address = address
+    }
+    if (dob !== undefined) {
+        updateField.dob = dob
+    }
+
+
+    const patient = await Patient.findOneAndUpdate(
+        { user_id: req.user._id },
+        {
+            $set: updateField
+        },
+        { new: true }
+
+    )
+
+    if (!patient) {
+        throw new ApiError(404, "Patient profile not found.")
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                patient,
+                "Credentials Changed Successfully."
+            )
+        )
+
+})
+
+export { createPatient, getPatientProfile, updatePatientProfile }
