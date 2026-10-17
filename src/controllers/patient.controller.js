@@ -34,4 +34,27 @@ const createPatient = asyncHandler(async (req, res) => {
 
 })
 
-export { createPatient }
+const getPatientProfile = asyncHandler(async (req, res) => {
+
+    if (req.user?.role !== "patient") {
+        throw new ApiError(403, "Access denied. Only patient can perform this action.")
+    }
+
+    const patient = await Patient.findOne({ user_id: req.user._id }).populate("user_id", "userName email avatar")
+    if (!patient) {
+        throw new ApiError(404, "Patient Does no exsists.")
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                patient,
+                "Patient profile fetched SuccessFully."
+            )
+        )
+
+})
+
+export { createPatient, getPatientProfile }
