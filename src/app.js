@@ -3,7 +3,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import userRouter from "./routes/user.routes.js"
 import doctorRouter from "./routes/doctor.routes.js"
-import patientRouter from "./routes/patient.route.js"
+import patientRouter from "./routes/patient.routes.js"
 
 const app = express()
 
