@@ -1,0 +1,586 @@
+{
+  "info": {
+    "_postman_id": "b7beab03-3686-48c1-be8c-7a16c48b65cf",
+    "name": "Hospital",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58080325",
+    "_collection_link": "https://go.postman.co/collection/58080325-b7beab03-3686-48c1-be8c-7a16c48b65cf?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "User Routes",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "userName",
+                  "value": "nine",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "nine@gmail.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "12345",
+                  "type": "text"
+                },
+                {
+                  "key": "role",
+                  "value": "patient",
+                  "type": "text"
+                },
+                {
+                  "key": "avatar",
+                  "type": "file",
+                  "src": [
+                    "/D:/Downloads/flux-2-dev_b_Generate_a_image_of_.jpeg"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{server}}/users/register",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "users",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Details User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userName\": \"six\",\r\n    \"role\": \"doctor\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/users/update-details",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "users",
+                "update-details"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Avatar User",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "avatar",
+                  "type": "file",
+                  "src": [
+                    "/D:/Downloads/JARVIS.jpg"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{server}}/users/update-avatar",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "users",
+                "update-avatar"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"oldPassword\": \"12345\",\r\n    \"newPassword\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/users/change-password",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "users",
+                "change-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Access Token User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/users/refresh-token",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "users",
+                "refresh-token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/users/current-user",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "users",
+                "current-user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/users/logout",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "users",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"nine@gmail.com\",\r\n    \"password\": \"12345\",\r\n    \"userName\": \"nine\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/users/login",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "users",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Doctor Routes",
+      "item": [
+        {
+          "name": "Create-Profile",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"specialization\": \"cardiology\",\r\n    \"availability\": \"Mon - Fri 09:00 - 17:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/doctors/create-profile",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "doctors",
+                "create-profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/doctors/profile",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "doctors",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": ":id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/doctors/6ad1a48d5f12b9bdb4abbcf9",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "doctors",
+                "6ad1a48d5f12b9bdb4abbcf9"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetAllDocs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/doctors/",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "doctors",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Doctor Availability",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"availability\": \"Mon - Fri 09:00 - 16:00\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/doctors/update-availability",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "doctors",
+                "update-availability"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Patient Routes",
+      "item": [
+        {
+          "name": "Create-Profile",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"dob\": \"2005-05-15\",\r\n    \"gender\": \"male\",\r\n    \"phone\": \"1111111111\",\r\n    \"address\": \"123 main street, city\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/patient/create-profile",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "patient",
+                "create-profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get-Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/patient/get-profile",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "patient",
+                "get-profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update-Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"dob\": \"2001-08-07\",\r\n    \"phone\": \"1111111112\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/patient/update-profile",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "patient",
+                "update-profile"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Appointment Routes",
+      "item": [
+        {
+          "name": "book-appointment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"doctor_id\": \"6ad1a48d5f12b9bdb4abbcf9\",\r\n  \"appointment_date\": \"2026-11-01T10:45:00.000Z\",\r\n  \"reason\": \"Routine check\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/appointment/book-appointment",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "appointment",
+                "book-appointment"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get-appointment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/appointment/get-appointment",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "appointment",
+                "get-appointment"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get-doctor-appointment",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/appointment/get-doctor-appointment",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "appointment",
+                "get-doctor-appointment"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update-appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\": \"cancelled\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/appointment/status/6ad43e76ccd9c7368a9ee139",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "appointment",
+                "status",
+                "6ad43e76ccd9c7368a9ee139"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Prescription Routes",
+      "item": [
+        {
+          "name": "Create-Prescription",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"appointment_id\": \"6ad43e76ccd9c7368a9ee139\",\r\n  \"diagnosis\": \"mild hypertension\",\r\n  \"medicines\": [\r\n    \"Amlodipine 5mg - once daily morning\",\r\n    \"Multivitamin - once daily after dinner\"\r\n  ],\r\n  \"notes\": \"follow up in 2 weeks, monitor blood pressure daily\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{server}}/prescription/create",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "prescription",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "my-Prescription",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/prescription/my-prescriptions",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "prescription",
+                "my-prescriptions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get-Prescription",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{server}}/prescription/appointment/6ad43e76ccd9c7368a9ee139",
+              "host": [
+                "{{server}}"
+              ],
+              "path": [
+                "prescription",
+                "appointment",
+                "6ad43e76ccd9c7368a9ee139"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
