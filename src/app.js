@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser"
 import userRouter from "./routes/user.routes.js"
 import doctorRouter from "./routes/doctor.routes.js"
 import patientRouter from "./routes/patient.routes.js"
+import appointmentRouter from "./routes/appointment.routes.js"
 
 const app = express()
 
@@ -16,5 +17,6 @@ app.use(express.static("public"))
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/doctors", doctorRouter)
 app.use("/api/v1/patient", patientRouter)
+app.use("/api/v1/appointment", appointmentRouter)
 
 export { app }
