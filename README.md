@@ -5,24 +5,26 @@ This is my first independent backend project. I built this from scratch to truly
 ## 🚀 Core Focus & What I Learned
 
 1. **MongoDB Connection Architecture**: Handled the MongoDB URI setup and database connection logic cleanly in a separate directory (`src/db/index.js`), ensuring the server connects successfully before listening for incoming requests.
+
 2. **Secure File Upload Pipeline (Multer + Cloudinary)**: Built a complete two-step file upload system. Files are first saved temporarily on the local machine using `multer`. They are then uploaded to Cloudinary. Finally, Node's `fs.unlinkSync` is used to delete the temporary file from the local PC to prevent storage leaks, regardless of whether the cloud upload succeeds or fails.
+
 3. **Headless API Testing**: There is no frontend for this project. The entire REST API was rigorously tested using Postman to ensure all routes, authentication gates, and data models work flawlessly.
 
 ## 🛠️ Tech Stack
-* **Node.js & Express.js** - Server and routing
-* **MongoDB & Mongoose** - Database and object data modeling
-* **Cloudinary & Multer** - Media storage and local file handling pipeline
-* **JWT & bcrypt** - Secure authentication and password hashing
-* **Postman** - Comprehensive API testing
+- **Node.js & Express.js** - Server and routing
+- **MongoDB & Mongoose** - Database and object data modeling
+- **Cloudinary & Multer** - Media storage and local file handling pipeline
+- **JWT & bcrypt** - Secure authentication and password hashing
+- **Postman** - Comprehensive API testing
 
 ## 📦 Database Models & Entities
 
 The database layer uses Mongoose schemas structured to maintain clear relationships:
-* **User**: Manages authentication, identity, and access/refresh tokens.
-* **Doctor**: Clinical profiles, qualifications, and department specializations.
-* **Patient**: Medical histories, demographic details, and assigned records.
-* **Appointment**: Connects patients to doctors with lifecycle statuses (`scheduled`, `completed`, `cancelled`).
-* **Prescription**: Prescribed medications and relational links to the relevant doctor and patient.
+- **User**: Manages authentication, identity, and access/refresh tokens.
+- **Doctor**: Clinical profiles, qualifications, and department specializations.
+- **Patient**: Medical histories, demographic details, and assigned records.
+- **Appointment**: Connects patients to doctors with lifecycle statuses (`scheduled`, `completed`, `cancelled`).
+- **Prescription**: Prescribed medications and relational links to the relevant doctor and patient.
 
 ### Entity Relationship Diagram
 ![Models Diagram](./Models_Daigram.jpeg)
@@ -60,11 +62,23 @@ The database layer uses Mongoose schemas structured to maintain clear relationsh
    npm run dev
    ```
 
-## 🔗 API Structure (Tested via Postman)
+## 🔗 API Structure
 
 All core routes are prefixed with `/api/v1/`:
-* `/api/v1/users` - Registration, login, logout, and token refresh
-* `/api/v1/doctors` - Doctor profiles and directory
-* `/api/v1/patients` - Patient registration and records
-* `/api/v1/appointments` - Appointment scheduling and status updates
-* `/api/v1/prescriptions` - Medical prescriptions and instructions
+- `/api/v1/users` - Registration, login, logout, and token refresh
+- `/api/v1/doctors` - Doctor profiles and directory
+- `/api/v1/patients` - Patient registration and records
+- `/api/v1/appointments` - Appointment scheduling and status updates
+- `/api/v1/prescriptions` - Medical prescriptions and instructions
+
+## 🧪 How to Test with Postman
+
+A complete Postman collection is included in this repository so anyone can easily test the API routes locally.
+
+1. **Open Postman** and click **Import** in the top-left corner.
+2. Select the `postman/Hospital.postman_collection.json` file from this project folder.
+3. The "Hospital" collection will appear in your workspace with all endpoints pre-configured.
+4. **Set the base URL:** The collection uses a `{{server}}` variable. Click the **Environments** tab on the left (or the environment quick-look eye icon top right) and create a variable:
+   * **Variable:** `server`
+   * **Current Value:** `http://localhost:8000/api/v1` (adjust the port if yours is different)
+5. You can now execute the requests!
