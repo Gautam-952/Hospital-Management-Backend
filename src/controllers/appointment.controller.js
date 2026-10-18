@@ -27,6 +27,23 @@ const bookAppointment = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Doctor not Found.")
     }
 
+    const slotDurationInMs = 30 * 60 * 1000;
+    const slotStart = new Date(new Date(appointment_date).getTime() - slotDurationInMs);
+    const slotEnd = new Date(new Date(appointment_date).getTime() + slotDurationInMs);
+
+    const existingAppointment = await Appointment.findOne({
+        doctor_id,
+        status: "scheduled",
+        appointment_date: {
+            $gt: slotStart,
+            $lt: slotEnd
+        }
+    });
+
+    if (existingAppointment) {
+        throw new ApiError(409, "Doctor is already booked around this time.");
+    }
+
     const appointment = await Appointment.create({ patient_id: patient._id, appointment_date, reason, doctor_id })
     if (!appointment) {
         throw new ApiError(500, "Something went wrong while creating Appointment.")
@@ -58,7 +75,7 @@ const getMyAppointment = asyncHandler(async (req, res) => {
     const appointments = await Appointment.find({ patient_id: patient._id })
         .populate({
             path: "doctor_id",
-            select: "specialization deaprtment user_id",
+            select: "specialization department user_id",
             populate: {
                 path: "user_id",
                 select: "userName email avatar"
